@@ -3,7 +3,7 @@
 // ============================================
 
 // Replace with your n8n webhook URL after you create it
-const N8N_WEBHOOK_URL = 'https://YOUR-N8N-INSTANCE.app.n8n.cloud/webhook/niche-quiz';
+const N8N_WEBHOOK_URL = 'https://nerddigital.app.n8n.cloud/webhook-test/niche-quiz';
 
 // Replace with your GTM container ID
 const GTM_ID = 'GTM-XXXXXXX';
