@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Your Profitable Niche in 10 Minutes (Free)</title>
+    <meta name="description" content="Stop pivoting. Get a data-backed niche recommendation based on your actual skills and experience.">
+    
+    <!-- Google Tag Manager - REPLACE WITH YOUR GTM ID -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-XXXXXXX');</script>
+    <!-- End Google Tag Manager -->
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Stuck Picking Your Niche?</h1>
+            <p class="subheadline">You're not alone. Most coaches waste 6+ months pivoting between niches, losing $15K+ in potential revenue.</p>
+            
+            <div class="pain-points">
+                <div class="pain-point">
+                    <span class="icon">❌</span>
+                    <p>Pivoted so much you're embarrassed to update your LinkedIn bio again</p>
+                </div>
+                <div class="pain-point">
+                    <span class="icon">❌</span>
+                    <p>Introduce yourself differently every time</p>
+                </div>
+                <div class="pain-point">
+                    <span class="icon">❌</span>
+                    <p>Tried to get clients in your niche with zero success</p>
+                </div>
+            </div>
+
+            <button class="cta-button" onclick="scrollToQuiz()">Find Your Niche in 10 Minutes (Free) →</button>
+            <p class="trust-line">✓ No credit card required &nbsp;&nbsp; ✓ Instant results</p>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2>How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Answer 7 Questions</h3>
+                    <p>About your skills, experience, and what makes you different</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Get AI Analysis</h3>
+                    <p>We analyze your answers against 500+ successful coach niches</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Receive Your Report</h3>
+                    <p>Top 3 niche recommendations with revenue potential and next steps</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof -->
+    <section class="social-proof">
+        <div class="container">
+            <h2>This Works</h2>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">87%</div>
+                    <p>Pick their niche within 48 hours of getting their report</p>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">$47K</div>
+                    <p>Average revenue increase in first 90 days after niching down</p>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">10 min</div>
+                    <p>Time it takes to complete the quiz and get results</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quiz Section -->
+    <section class="quiz-section" id="quiz">
+        <div class="container">
+            <h2>Get Your Custom Niche Recommendation</h2>
+            <p class="quiz-intro">Answer 7 questions. Get your report instantly. Free.</p>
+            
+            <div class="quiz-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p class="progress-text"><span id="currentStep">1</span> of 7</p>
+
+                <!-- Quiz Steps -->
+                <form id="quizForm">
+                    <!-- Step 1 -->
+                    <div class="quiz-step active" data-step="1">
+                        <h3>What best describes you?</h3>
+                        <div class="options">
+                            <label class="option-card">
+                                <input type="radio" name="avatar" value="coach" required>
+                                <span>Coach/Consultant</span>
+                            </label>
+                            <label class="option-card">
+                                <input type="radio" name="avatar" value="course-creator" required>
+                                <span>Course Creator</span>
+                            </label>
+                            <label class="option-card">
+                                <input type="radio" name="avatar" value="service-provider" required>
+                                <span>Service Provider</span>
+                            </label>
+                            <label class="option-card">
+                                <input type="radio" name="avatar" value="other" required>
+                                <span>Other</span>
+                            </label>
+                        </div>
+                        <button type="button" class="next-button" onclick="nextStep()">Next →</button>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="quiz-step" data-step="2">
+                        <h3>What's your current monthly revenue?</h3>
+                        <div class="options">
+                            <label class="option-card">
+                                <input type="radio" name="revenue" value="0-5k" required>
+                                <span>$0-5K/month</span>
+                            </label>
+                            <label class="option-card">
+                                <input type="radio" name="revenue" value="5k-20k" required>
+                                <span>$5K-20K/month</span>
+                            </label>
+                            <label class="option-card">
+                                <input type="radio" name="revenue" value="20k-50k" required>
+                                <span>$20K-50K/month</span>
+                            </label>
+                            <label class="option-card">
+                                <input type="radio" name="revenue" value="50k+" required>
+                                <span>$50K+/month</span>
+                            </label>
+                        </div>
+                        <button type="button" class="back-button" onclick="prevStep()">← Back</button>
+                        <button type="button" class="next-button" onclick="nextStep()">Next →</button>
+                    </div>
+
+                    <!-- Step 3 - Email Capture -->
+                    <div class="quiz-step" data-step="3">
+                        <h3>Where should we send your niche report?</h3>
+                        <p class="helper-text">We'll email you the full analysis in 60 seconds</p>
+                        <input type="email" name="email" class="text-input" placeholder="your@email.com" required>
+                        <button type="button" class="back-button" onclick="prevStep()">← Back</button>
+                        <button type="button" class="next-button" onclick="nextStep()">Next →</button>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="quiz-step" data-step="4">
+                        <h3>What are you best at?</h3>
+                        <p class="helper-text">What skill do you have that others pay for?</p>
+                        <textarea name="skill" class="text-input" rows="4" placeholder="Example: I help people build marketing funnels that convert..." required></textarea>
+                        <button type="button" class="back-button" onclick="prevStep()">← Back</button>
+                        <button type="button" class="next-button" onclick="nextStep()">Next →</button>
+                    </div>
+
+                    <!-- Step 5 -->
+                    <div class="quiz-step" data-step="5">
+                        <h3>Who have you successfully helped before?</h3>
+                        <p class="helper-text">Even if not paid - who got results from your help?</p>
+                        <textarea name="helped_who" class="text-input" rows="4" placeholder="Example: I've helped 5 coaches go from $10K to $30K/month..." required></textarea>
+                        <button type="button" class="back-button" onclick="prevStep()">← Back</button>
+                        <button type="button" class="next-button" onclick="nextStep()">Next →</button>
+                    </div>
+
+                    <!-- Step 6 -->
+                    <div class="quiz-step" data-step="6">
+                        <h3>What's the biggest problem you solve?</h3>
+                        <p class="helper-text">What specific pain point do you help with?</p>
+                        <textarea name="problem_solved" class="text-input" rows="4" placeholder="Example: Coaches can't get clients consistently..." required></textarea>
+                        <button type="button" class="back-button" onclick="prevStep()">← Back</button>
+                        <button type="button" class="next-button" onclick="nextStep()">Next →</button>
+                    </div>
+
+                    <!-- Step 7 -->
+                    <div class="quiz-step" data-step="7">
+                        <h3>What makes your approach different?</h3>
+                        <p class="helper-text">How do you solve this problem differently than others?</p>
+                        <textarea name="differentiator" class="text-input" rows="4" placeholder="Example: I use small ad tests to validate messaging before building..." required></textarea>
+                        <button type="button" class="back-button" onclick="prevStep()">← Back</button>
+                        <button type="submit" class="submit-button" id="submitButton">Get My Niche Report →</button>
+                    </div>
+                </form>
+
+                <!-- Loading State -->
+                <div class="loading-state" id="loadingState" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>Analyzing your answers...</p>
+                    <p class="small">This takes about 30 seconds</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>Built by <a href="https://trustfunnels.com" target="_blank">Trust Funnels</a> | No spam, ever.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

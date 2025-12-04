@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Your Email - Niche Report Sent</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .thank-you-section {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 60px 20px;
+        }
+        .thank-you-content {
+            max-width: 600px;
+        }
+        .checkmark {
+            width: 80px;
+            height: 80px;
+            background: var(--pink);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            font-size: 40px;
+        }
+        .upsell-box {
+            background: var(--light-gray);
+            border: 2px solid var(--pink);
+            border-radius: 12px;
+            padding: 32px;
+            margin-top: 40px;
+        }
+        .upsell-box h3 {
+            margin-bottom: 16px;
+        }
+        .price {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--pink);
+            margin: 20px 0;
+        }
+        .upsell-benefits {
+            text-align: left;
+            margin: 24px 0;
+        }
+        .upsell-benefits li {
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <section class="thank-you-section">
+        <div class="thank-you-content">
+            <div class="checkmark">✓</div>
+            <h1>Check Your Email!</h1>
+            <p style="font-size: 20px; margin-bottom: 20px;">Your niche report is on its way.</p>
+            <p>We just sent your custom niche recommendations to your inbox. Should arrive in the next 60 seconds.</p>
+            
+            <div class="upsell-box">
+                <h3>Want Help Picking the Right One?</h3>
+                <p>You'll get 3 niche recommendations in your report. But which one should you choose?</p>
+                
+                <div class="price">$97</div>
+                <p style="font-weight: 600; margin-bottom: 24px;">30-Minute Feedback Call</p>
+                
+                <ul class="upsell-benefits">
+                    <li>✓ I'll review your top 3 niches with you</li>
+                    <li>✓ Tell you which has highest revenue potential</li>
+                    <li>✓ Show you which you're best positioned to win</li>
+                    <li>✓ Give you exactly what to test first</li>
+                </ul>
+                
+                <button class="cta-button" onclick="trackUpsellClick()">Book My Feedback Call →</button>
+                <p class="trust-line">Limited to 5 calls per week</p>
+            </div>
+            
+            <p style="margin-top: 40px; font-size: 14px; color: var(--medium-gray);">
+                Don't see the email? Check your spam folder or <a href="mailto:support@trustfunnels.com" style="color: var(--pink);">contact us</a>.
+            </p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>Built by <a href="https://trustfunnels.com" target="_blank">Trust Funnels</a> | No spam, ever.</p>
+        </div>
+    </footer>
+
+    <script>
+        function trackUpsellClick() {
+            // Track in GTM
+            if (typeof window.dataLayer !== 'undefined') {
+                window.dataLayer.push({
+                    'event': 'upsell_clicked'
+                });
+            }
+            
+            // Redirect to Stripe payment link (you'll create this)
+            window.location.href = 'https://buy.stripe.com/YOUR_PAYMENT_LINK';
+        }
+    </script>
+</body>
+</html>
