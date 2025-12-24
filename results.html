@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Niche Analysis Results | Trust Funnels</title>
+    <meta name="description" content="Your personalized niche recommendations based on your skills and experience.">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f8f9fa;
+            color: #1F2937;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #EC4899 0%, #DB2777 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        /* Charts Section */
+        .charts-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        @media (max-width: 768px) {
+            .charts-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .chart-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .chart-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: #1F2937;
+            text-align: center;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 280px;
+        }
+
+        /* Recommendation Banner */
+        .recommendation-banner {
+            background: linear-gradient(135deg, #1F2937 0%, #374151 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .recommendation-banner .label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.8;
+            margin-bottom: 8px;
+        }
+
+        .recommendation-banner h2 {
+            font-size: 1.8rem;
+            color: #EC4899;
+            margin-bottom: 12px;
+        }
+
+        .recommendation-banner p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Analysis Section */
+        .analysis-section {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin: 30px 0;
+        }
+
+        .analysis-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #1F2937;
+        }
+
+        .analysis-content {
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
+        .analysis-content h2 {
+            font-size: 1.4rem;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: #EC4899;
+        }
+
+        .analysis-content h3 {
+            font-size: 1.2rem;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            color: #1F2937;
+        }
+
+        .analysis-content p {
+            margin-bottom: 12px;
+        }
+
+        .analysis-content strong {
+            color: #1F2937;
+        }
+
+        /* Niche Cards */
+        .niche-cards {
+            display: grid;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .niche-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            border-left: 4px solid #EC4899;
+        }
+
+        .niche-card h4 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: #1F2937;
+        }
+
+        .niche-card .score {
+            display: inline-block;
+            background: #EC4899;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .niche-card .revenue {
+            color: #059669;
+            font-weight: 600;
+        }
+
+        /* LinkedIn CTA Section */
+        .linkedin-cta {
+            background: linear-gradient(135deg, #0077B5 0%, #005885 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .linkedin-cta h2 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+        }
+
+        .linkedin-cta p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 25px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .linkedin-cta .benefits {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .linkedin-cta .benefit {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+
+        .linkedin-cta .benefit span {
+            font-size: 1.2rem;
+        }
+
+        .linkedin-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            color: #0077B5;
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .linkedin-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .linkedin-button svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #6B7280;
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: #EC4899;
+            text-decoration: none;
+        }
+
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #EC4899;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Error State */
+        .error-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .error-state h2 {
+            color: #DC2626;
+            margin-bottom: 15px;
+        }
+
+        .retry-button {
+            background: #EC4899;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="container">
+            <h1>🎯 Your Niche Analysis</h1>
+            <p>Based on your skills, experience, and unique strengths</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Loading State (shown initially) -->
+        <div id="loadingState" class="loading">
+            <div class="spinner"></div>
+            <h2>Analyzing your background...</h2>
+            <p>Our AI is reviewing your skills, experience, and challenges to find your best niche opportunities.</p>
+            <p style="margin-top: 15px; color: #6B7280;">This takes about 30 seconds</p>
+        </div>
+
+        <!-- Error State (hidden initially) -->
+        <div id="errorState" class="error-state" style="display: none;">
+            <h2>Something went wrong</h2>
+            <p>We couldn't generate your analysis. Please try again.</p>
+            <button class="retry-button" onclick="window.location.href='index.html'">Take Quiz Again</button>
+        </div>
+
+        <!-- Results (hidden initially) -->
+        <div id="resultsContainer" style="display: none;">
+            
+            <!-- Charts -->
+            <div class="charts-section">
+                <div class="chart-card">
+                    <h3>📊 Your Strength Profile</h3>
+                    <div class="chart-container">
+                        <canvas id="strengthsChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <h3>🎯 Niche Fit Scores</h3>
+                    <div class="chart-container">
+                        <canvas id="nichesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Recommendation -->
+            <div class="recommendation-banner">
+                <div class="label">My #1 Recommendation For You</div>
+                <h2 id="recommendedNiche">Loading...</h2>
+                <p id="recommendedReason">Loading...</p>
+            </div>
+
+            <!-- Niche Cards -->
+            <h2 style="margin: 30px 0 20px; font-size: 1.4rem;">Your Top 5 Niche Opportunities</h2>
+            <div class="niche-cards" id="nicheCards">
+                <!-- Populated by JavaScript -->
+            </div>
+
+            <!-- Full Analysis -->
+            <div class="analysis-section">
+                <h2>📋 Full Analysis</h2>
+                <div class="analysis-content" id="analysisContent">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- LinkedIn CTA -->
+            <div class="linkedin-cta">
+                <h2>Want Expert Feedback on Your Top Pick?</h2>
+                <p>I'll personally review your results and tell you which niche has the highest revenue potential for YOUR situation.</p>
+                
+                <div class="benefits">
+                    <div class="benefit">
+                        <span>✅</span> Free feedback
+                    </div>
+                    <div class="benefit">
+                        <span>⚡</span> Reply within 24hrs
+                    </div>
+                    <div class="benefit">
+                        <span>🎯</span> Specific next steps
+                    </div>
+                </div>
+
+                <a href="https://www.linkedin.com/in/marciossantos/" target="_blank" class="linkedin-button" id="linkedinButton">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"/>
+                    </svg>
+                    DM Me on LinkedIn
+                </a>
+                <p style="margin-top: 15px; font-size: 0.9rem; opacity: 0.8;">Just say "I took the niche quiz" and I'll know what to do 👍</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>Built by <a href="https://trustfunnels.com" target="_blank">Trust Funnels</a> | Questions? <a href="https://www.linkedin.com/in/marciossantos/" target="_blank">DM me on LinkedIn</a></p>
+    </footer>
+
+    <script>
+        // Get data from localStorage (set by quiz form)
+        const analysisData = localStorage.getItem('nicheAnalysis');
+        
+        if (!analysisData) {
+            // No data - show error
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('errorState').style.display = 'block';
+        } else {
+            // Parse and display results
+            try {
+                const data = JSON.parse(analysisData);
+                displayResults(data);
+            } catch (e) {
+                console.error('Error parsing data:', e);
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('errorState').style.display = 'block';
+            }
+        }
+
+        function displayResults(data) {
+            // Hide loading, show results
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('resultsContainer').style.display = 'block';
+
+            // Extract JSON data from the analysis text
+            const analysisText = data.analysis || data;
+            let jsonData = null;
+            let textAnalysis = analysisText;
+
+            // Try to extract JSON block from the response
+            const jsonMatch = analysisText.match(/```json\s*([\s\S]*?)\s*```/);
+            if (jsonMatch) {
+                try {
+                    jsonData = JSON.parse(jsonMatch[1]);
+                    // Remove JSON block from text analysis
+                    textAnalysis = analysisText.replace(/```json[\s\S]*?```/, '').trim();
+                } catch (e) {
+                    console.error('Error parsing JSON from response:', e);
+                }
+            }
+
+            // If we have structured JSON data, use it for charts
+            if (jsonData) {
+                // Render Strengths Radar Chart
+                renderStrengthsChart(jsonData.strengths);
+                
+                // Render Niches Bar Chart
+                renderNichesChart(jsonData.niches);
+                
+                // Display recommendation
+                document.getElementById('recommendedNiche').textContent = jsonData.recommended_niche || 'See analysis below';
+                document.getElementById('recommendedReason').textContent = jsonData.recommended_reason || '';
+
+                // Display niche cards
+                displayNicheCards(jsonData.niches);
+            } else {
+                // No structured data - use defaults and show full text
+                renderStrengthsChart({ credibility: 7, capability: 8, empathy: 6, proof: 7 });
+                renderNichesChart([]);
+                document.getElementById('recommendedNiche').textContent = 'See full analysis below';
+                document.getElementById('recommendedReason').textContent = 'Your personalized recommendations are in the detailed analysis.';
+            }
+
+            // Display full text analysis (formatted)
+            displayAnalysis(textAnalysis);
+        }
+
+        function renderStrengthsChart(strengths) {
+            const ctx = document.getElementById('strengthsChart').getContext('2d');
+            
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['Credibility', 'Capability', 'Empathy', 'Proof'],
+                    datasets: [{
+                        label: 'Your Strengths',
+                        data: [
+                            strengths.credibility || 5,
+                            strengths.capability || 5,
+                            strengths.empathy || 5,
+                            strengths.proof || 5
+                        ],
+                        backgroundColor: 'rgba(236, 72, 153, 0.2)',
+                        borderColor: '#EC4899',
+                        borderWidth: 3,
+                        pointBackgroundColor: '#EC4899',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 10,
+                            ticks: {
+                                stepSize: 2,
+                                font: { size: 11 }
+                            },
+                            pointLabels: {
+                                font: { size: 12, weight: '600' }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+
+        function renderNichesChart(niches) {
+            const ctx = document.getElementById('nichesChart').getContext('2d');
+            
+            // Default niches if none provided
+            const nicheData = niches.length > 0 ? niches : [
+                { name: 'Niche 1', fit_score: 80 },
+                { name: 'Niche 2', fit_score: 70 },
+                { name: 'Niche 3', fit_score: 65 },
+                { name: 'Niche 4', fit_score: 55 },
+                { name: 'Niche 5', fit_score: 45 }
+            ];
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: nicheData.map(n => truncateLabel(n.name, 20)),
+                    datasets: [{
+                        label: 'Fit Score',
+                        data: nicheData.map(n => n.fit_score),
+                        backgroundColor: [
+                            '#EC4899',
+                            '#F472B6',
+                            '#F9A8D4',
+                            '#FBCFE8',
+                            '#FCE7F3'
+                        ],
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                callback: value => value + '%'
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                font: { size: 11 }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+
+        function truncateLabel(label, maxLength) {
+            if (label.length <= maxLength) return label;
+            return label.substring(0, maxLength) + '...';
+        }
+
+        function displayNicheCards(niches) {
+            const container = document.getElementById('nicheCards');
+            
+            if (!niches || niches.length === 0) {
+                container.innerHTML = '<p>See the full analysis below for your niche recommendations.</p>';
+                return;
+            }
+
+            container.innerHTML = niches.map((niche, index) => `
+                <div class="niche-card">
+                    <h4>#${index + 1}: ${niche.name}</h4>
+                    <span class="score">${niche.fit_score}% Match</span>
+                    <p><strong>Revenue Potential:</strong> <span class="revenue">$${niche.revenue_potential?.toLocaleString() || 'Varies'}/month</span></p>
+                    <p><strong>Market Demand:</strong> ${capitalize(niche.demand || 'Medium')}</p>
+                </div>
+            `).join('');
+        }
+
+        function capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+        function displayAnalysis(text) {
+            const container = document.getElementById('analysisContent');
+            
+            // Convert markdown-style formatting to HTML
+            let html = text
+                // Headers
+                .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+                .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+                // Bold
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                // Line breaks
+                .replace(/\n\n/g, '</p><p>')
+                .replace(/\n/g, '<br>');
+            
+            // Wrap in paragraph tags
+            html = '<p>' + html + '</p>';
+            
+            container.innerHTML = html;
+        }
+
+        // Track LinkedIn click
+        document.getElementById('linkedinButton').addEventListener('click', function() {
+            // GTM tracking
+            if (typeof dataLayer !== 'undefined') {
+                dataLayer.push({
+                    'event': 'linkedin_dm_click',
+                    'event_category': 'engagement',
+                    'event_label': 'niche_results_page'
+                });
+            }
+        });
+    </script>
+</body>
+</html>
