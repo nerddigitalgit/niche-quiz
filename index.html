@@ -130,31 +130,31 @@
                         </div>
                         <button type="button" class="next-button" onclick="nextStep()">Next →</button>
                     </div>
-
                     <!-- Step 2 -->
-                    <div class="quiz-step" data-step="2">
-                        <h2>Where are you right now?</h2>
-                        <p class="step-description">Be honest - this helps us give you relevant recommendations.</p>
-                        
-                        <div class="avatar-grid">
-                            <label class="avatar-option">
-                                <input type="radio" name="revenue" value="No clients yet - still figuring things out" required>
-                                <span class="avatar-card">No clients yet - still figuring things out</span>
-                            </label>
-                            <label class="avatar-option">
-                                <input type="radio" name="revenue" value="Some clients - but income is inconsistent">
-                                <span class="avatar-card">Some clients - but income is inconsistent</span>
-                            </label>
-                            <label class="avatar-option">
-                                <input type="radio" name="revenue" value="Good clients - but I'm maxed out on time">
-                                <span class="avatar-card">Good clients - but I'm maxed out on time</span>
-                            </label>
-                            <label class="avatar-option">
-                                <input type="radio" name="revenue" value="Lots of clients - need better systems">
-                                <span class="avatar-card">Lots of clients - need better systems</span>
-                            </label>
+                        <div class="quiz-step" data-step="2">
+                            <h3>Where are you right now?</h3>
+                            <p class="helper-text">Be honest - this helps us give you relevant recommendations.</p>
+                            <div class="options">
+                                <label class="option-card">
+                                    <input type="radio" name="revenue" value="No clients yet - still figuring things out" required>
+                                    <span>No clients yet - still figuring things out</span>
+                                </label>
+                                <label class="option-card">
+                                    <input type="radio" name="revenue" value="Some clients - but income is inconsistent">
+                                    <span>Some clients - but income is inconsistent</span>
+                                </label>
+                                <label class="option-card">
+                                    <input type="radio" name="revenue" value="Good clients - but maxed out on time">
+                                    <span>Good clients - but maxed out on time</span>
+                                </label>
+                                <label class="option-card">
+                                    <input type="radio" name="revenue" value="Lots of clients - need better systems">
+                                    <span>Lots of clients - need better systems</span>
+                                </label>
+                            </div>
+                            <button type="button" class="back-button" onclick="prevStep()">← Back</button>
+                            <button type="button" class="next-button" onclick="nextStep()">Next →</button>
                         </div>
-                    </div>
 
                     <!-- Step 3 - Email Capture -->
                     <div class="quiz-step" data-step="3">
