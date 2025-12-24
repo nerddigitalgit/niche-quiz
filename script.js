@@ -1,218 +1,218 @@
-// ============================================
-// CONFIGURATION - CHANGE THESE VALUES
-// ============================================
-
-// Replace with your n8n webhook URL after you create it
-const N8N_WEBHOOK_URL = 'https://nerddigital.app.n8n.cloud/webhook-test/niche-quiz';
-
-// Replace with your GTM container ID
-const GTM_ID = 'GTM-XXXXXXX';
-
-// ============================================
-// QUIZ NAVIGATION
-// ============================================
-
+// Quiz Navigation
 let currentStep = 1;
 const totalSteps = 7;
-
-function scrollToQuiz() {
-    document.getElementById('quiz').scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'center'
-    });
-    trackEvent('quiz_started');
-}
 
 function updateProgress() {
     const progressFill = document.getElementById('progressFill');
     const currentStepText = document.getElementById('currentStep');
+    const progress = (currentStep / totalSteps) * 100;
     
-    const percentage = (currentStep / totalSteps) * 100;
-    progressFill.style.width = percentage + '%';
+    progressFill.style.width = progress + '%';
     currentStepText.textContent = currentStep;
 }
 
+function showStep(step) {
+    // Hide all steps
+    document.querySelectorAll('.quiz-step').forEach(el => {
+        el.classList.remove('active');
+    });
+    
+    // Show current step
+    const currentStepEl = document.querySelector(`.quiz-step[data-step="${step}"]`);
+    if (currentStepEl) {
+        currentStepEl.classList.add('active');
+    }
+    
+    updateProgress();
+}
+
 function nextStep() {
-    const currentStepElement = document.querySelector(`.quiz-step[data-step="${currentStep}"]`);
-    
     // Validate current step
-    const inputs = currentStepElement.querySelectorAll('input[required], textarea[required]');
-    let isValid = true;
+    const currentStepEl = document.querySelector(`.quiz-step[data-step="${currentStep}"]`);
+    const inputs = currentStepEl.querySelectorAll('input[required], textarea[required]');
     
+    let isValid = true;
     inputs.forEach(input => {
         if (input.type === 'radio') {
-            const radioGroup = currentStepElement.querySelectorAll(`input[name="${input.name}"]`);
-            const isChecked = Array.from(radioGroup).some(radio => radio.checked);
-            if (!isChecked) {
-                isValid = false;
-            }
-        } else {
-            if (!input.value.trim()) {
-                isValid = false;
-                input.focus();
-            }
+            const radioGroup = currentStepEl.querySelectorAll(`input[name="${input.name}"]`);
+            const isChecked = Array.from(radioGroup).some(r => r.checked);
+            if (!isChecked) isValid = false;
+        } else if (!input.value.trim()) {
+            isValid = false;
+            input.classList.add('error');
         }
     });
     
     if (!isValid) {
-        alert('Please answer this question before continuing.');
+        alert('Please complete this step before continuing.');
         return;
     }
-    
-    // Track email capture at step 3
+
+    // Track email capture (step 3)
     if (currentStep === 3) {
         const email = document.querySelector('input[name="email"]').value;
-        trackEvent('lead_captured', { user_email: email });
+        if (email) {
+            // GTM tracking
+            if (typeof dataLayer !== 'undefined') {
+                dataLayer.push({
+                    'event': 'lead_captured',
+                    'email': email
+                });
+            }
+        }
     }
     
-    // Move to next step
     if (currentStep < totalSteps) {
-        currentStepElement.classList.remove('active');
         currentStep++;
-        document.querySelector(`.quiz-step[data-step="${currentStep}"]`).classList.add('active');
-        updateProgress();
-        
-        // Scroll to top of quiz container
-        document.getElementById('quiz').scrollIntoView({ 
-            behavior: 'smooth',
-            block: 'center'
-        });
+        showStep(currentStep);
     }
 }
 
 function prevStep() {
     if (currentStep > 1) {
-        document.querySelector(`.quiz-step[data-step="${currentStep}"]`).classList.remove('active');
         currentStep--;
-        document.querySelector(`.quiz-step[data-step="${currentStep}"]`).classList.add('active');
-        updateProgress();
-        
-        // Scroll to top of quiz container
-        document.getElementById('quiz').scrollIntoView({ 
-            behavior: 'smooth',
-            block: 'center'
+        showStep(currentStep);
+    }
+}
+
+function scrollToQuiz() {
+    document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+    
+    // Track quiz start
+    if (typeof dataLayer !== 'undefined') {
+        dataLayer.push({
+            'event': 'quiz_started'
         });
     }
 }
 
-// ============================================
-// LOCATION DATA COLLECTION
-// ============================================
-
-async function getUserLocation() {
-    try {
-        const response = await fetch('https://ipapi.co/json/');
-        const data = await response.json();
-        return {
-            ip: data.ip || 'unknown',
-            city: data.city || 'unknown',
-            state: data.region || 'unknown',
-            country: data.country_name || 'unknown'
-        };
-    } catch (error) {
-        console.error('Error getting location:', error);
-        return {
-            ip: 'unknown',
-            city: 'unknown',
-            state: 'unknown',
-            country: 'unknown'
-        };
-    }
-}
-
-// ============================================
-// FORM SUBMISSION
-// ============================================
-
+// Form Submission
 document.getElementById('quizForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     
+    const submitButton = document.getElementById('submitButton');
+    const loadingState = document.getElementById('loadingState');
+    const quizForm = document.getElementById('quizForm');
+    
     // Show loading state
-    document.querySelector('.quiz-container').style.display = 'none';
-    document.getElementById('loadingState').style.display = 'block';
+    submitButton.disabled = true;
+    submitButton.textContent = 'Analyzing...';
+    quizForm.style.display = 'none';
+    loadingState.style.display = 'block';
     
-    trackEvent('quiz_completed');
-    
-    // Get form data
-    const formData = new FormData(e.target);
-    const data = {};
-    formData.forEach((value, key) => {
-        data[key] = value;
-    });
-    
-    // Get location data
-    const location = await getUserLocation();
-    
-    // Prepare payload
-    const payload = {
-        ...data,
-        ...location,
+    // Collect form data
+    const formData = new FormData(this);
+    const data = {
+        avatar: formData.get('avatar'),
+        revenue: formData.get('revenue'),
+        email: formData.get('email'),
+        skills_developed: formData.get('skills_developed'),
+        career_history: formData.get('career_history'),
+        certain_outcome: formData.get('certain_outcome'),
+        challenges_overcome: formData.get('challenges_overcome'),
         timestamp: new Date().toISOString(),
         source: 'niche-quiz'
     };
     
-    console.log('Submitting data:', payload);
-    
-    // Send to n8n webhook
+    // Get location data
     try {
-        const response = await fetch(N8N_WEBHOOK_URL, {
+        const locationResponse = await fetch('https://ipapi.co/json/');
+        const locationData = await locationResponse.json();
+        data.ip = locationData.ip || '';
+        data.city = locationData.city || '';
+        data.state = locationData.region || '';
+        data.country = locationData.country_name || '';
+    } catch (error) {
+        console.log('Could not get location data:', error);
+        data.ip = '';
+        data.city = '';
+        data.state = '';
+        data.country = '';
+    }
+    
+    // Track form submission
+    if (typeof dataLayer !== 'undefined') {
+        dataLayer.push({
+            'event': 'quiz_completed',
+            'avatar': data.avatar,
+            'revenue': data.revenue
+        });
+    }
+    
+    // Submit to n8n webhook and WAIT for response
+    try {
+        const response = await fetch('https://nerddigital.app.n8n.cloud/webhook/niche-quiz', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(data)
         });
         
-        if (response.ok) {
-            // Success - redirect to thank you page
-            window.location.href = 'thank-you.html';
-        } else {
-            throw new Error('Submission failed');
+        if (!response.ok) {
+            throw new Error('Webhook response not ok');
         }
+        
+        // Parse the response (contains AI analysis)
+        const result = await response.json();
+        
+        // Store the analysis in localStorage for results page
+        localStorage.setItem('nicheAnalysis', JSON.stringify(result));
+        
+        // Also store user email for potential follow-up
+        localStorage.setItem('userEmail', data.email);
+        
+        // Track success
+        if (typeof dataLayer !== 'undefined') {
+            dataLayer.push({
+                'event': 'analysis_complete',
+                'success': true
+            });
+        }
+        
+        // Redirect to results page
+        window.location.href = 'results.html';
+        
     } catch (error) {
-        console.error('Error submitting form:', error);
-        alert('Something went wrong. Please try again or email us at support@trustfunnels.com');
+        console.error('Error submitting quiz:', error);
         
-        // Show form again
-        document.getElementById('loadingState').style.display = 'none';
-        document.querySelector('.quiz-container').style.display = 'block';
-    }
-});
-
-// ============================================
-// GOOGLE TAG MANAGER TRACKING
-// ============================================
-
-function trackEvent(eventName, eventData = {}) {
-    if (typeof window.dataLayer !== 'undefined') {
-        window.dataLayer.push({
-            'event': eventName,
-            ...eventData
-        });
-        console.log('Tracked event:', eventName, eventData);
-    } else {
-        console.warn('GTM dataLayer not found. Event not tracked:', eventName);
-    }
-}
-
-// Track page load
-document.addEventListener('DOMContentLoaded', function() {
-    trackEvent('page_loaded');
-});
-
-// ============================================
-// HELPER FUNCTIONS
-// ============================================
-
-// Prevent form submission on Enter key (except in textareas)
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
-        e.preventDefault();
-        if (currentStep < totalSteps) {
-            nextStep();
+        // Track error
+        if (typeof dataLayer !== 'undefined') {
+            dataLayer.push({
+                'event': 'analysis_error',
+                'error_message': error.message
+            });
         }
+        
+        // Show error state
+        loadingState.innerHTML = `
+            <div style="text-align: center; padding: 40px;">
+                <h3 style="color: #DC2626; margin-bottom: 15px;">Something went wrong</h3>
+                <p style="margin-bottom: 20px;">We couldn't process your quiz. Please try again.</p>
+                <button onclick="window.location.reload()" style="background: #EC4899; color: white; padding: 12px 24px; border: none; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+                    Try Again
+                </button>
+            </div>
+        `;
     }
 });
 
-// Initialize progress bar
-updateProgress();
+// Remove error class on input
+document.querySelectorAll('input, textarea').forEach(input => {
+    input.addEventListener('input', function() {
+        this.classList.remove('error');
+    });
+});
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+    showStep(1);
+    
+    // Track page load
+    if (typeof dataLayer !== 'undefined') {
+        dataLayer.push({
+            'event': 'page_loaded',
+            'page': 'niche_quiz'
+        });
+    }
+});
